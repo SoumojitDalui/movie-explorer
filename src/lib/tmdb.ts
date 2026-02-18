@@ -1,5 +1,3 @@
-import "server-only";
-
 type TmdbAuth =
   | { kind: "bearer"; token: string }
   | { kind: "apiKey"; apiKey: string }
