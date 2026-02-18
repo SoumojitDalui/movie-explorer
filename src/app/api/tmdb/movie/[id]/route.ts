@@ -11,8 +11,9 @@ type TmdbMovieDetails = {
   poster_path?: string | null;
 };
 
-export async function GET(_req: Request, ctx: { params: { id: string } }) {
-  const rawId = ctx.params.id;
+export async function GET(_req: Request, ctx: { params: { id: string } | Promise<{ id: string }> }) {
+  const params = await ctx.params;
+  const rawId = params.id;
   const id = Number(rawId);
 
   if (!Number.isFinite(id) || id <= 0) {
@@ -37,4 +38,3 @@ export async function GET(_req: Request, ctx: { params: { id: string } }) {
     );
   }
 }
-
