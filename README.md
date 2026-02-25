@@ -4,7 +4,7 @@ Search movies, view details, and save favorites with a personal rating (1–5) a
 
 ## Hosted App
 
-Not deployed yet (per current scope). Run locally using the instructions below.
+Add your deployed URL here (Vercel recommended): `https://movie-explorer-hpkh.vercel.app`
 
 ## Setup
 
@@ -41,7 +41,8 @@ Open `http://localhost:3000`.
 
 ## Known Limitations / Next Improvements
 
-- No pagination/infinite scroll; search returns the first TMDB page only.
-- Favorites are per-browser (LocalStorage) and not synced.
-- Basic styling only (focus on functionality); could add skeleton loading, better responsive layout, accessibility pass.
-- Could add caching / debounce / request cancellation to reduce API traffic.
+- Search ranking and strict mode are simplified (1–2 character searches use exact-title matching to reduce noisy results).
+- Favorites are local-only (LocalStorage) and not synced across devices.
+- No auth/user accounts.
+- Basic UI polish only; could improve accessibility (focus management, ARIA), add keyboard shortcuts, and add better empty/loading states.
+- Could add caching, debouncing, and more robust request cancellation across all endpoints.
