@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { getYear } from "@/lib/format";
+import { cleanTitle, getYear } from "@/lib/format";
 import { getPosterUrl } from "@/lib/poster";
 import type { MovieDetails, MovieSearchResult } from "@/lib/types";
 import { useFavorites } from "@/components/favorites/FavoritesProvider";
@@ -66,7 +66,7 @@ export function MovieDetailsModal({
 
   if (!movie) return null;
 
-  const title = details?.title ?? movie.title;
+  const title = cleanTitle(details?.title ?? movie.title);
   const overview = details?.overview ?? movie.overview;
   const runtime = details?.runtimeMinutes ?? null;
 
@@ -116,4 +116,3 @@ export function MovieDetailsModal({
     </div>
   );
 }
-

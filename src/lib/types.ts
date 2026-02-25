@@ -11,8 +11,7 @@ export type MovieDetails = MovieSearchResult & {
 };
 
 export type FavoriteMovie = MovieSearchResult & {
-  rating: 1 | 2 | 3 | 4 | 5;
+  rating: 1 | 2 | 3 | 4 | 5 | null;
   note: string;
   addedAt: string;
 };
-

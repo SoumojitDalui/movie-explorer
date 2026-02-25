@@ -23,9 +23,7 @@ body {
   margin: 0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
     "Apple Color Emoji", "Segoe UI Emoji";
-  background: radial-gradient(1200px 700px at 20% 0%, rgba(124, 92, 255, 0.35), transparent 55%),
-    radial-gradient(900px 600px at 80% 20%, rgba(0, 197, 255, 0.22), transparent 60%),
-    var(--bg);
+  background: #000;
   color: var(--text);
 }
 
@@ -48,28 +46,31 @@ textarea {
 
 .header {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  padding-bottom: 18px;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: 8px 0 18px;
 }
 
 .header h1 {
   margin: 0;
-  font-size: 24px;
+  font-size: clamp(32px, 4vw, 44px);
   letter-spacing: 0.2px;
 }
 
 .header p {
   margin: 0;
-  color: var(--muted);
-  font-size: 13px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 14px;
+  max-width: 70ch;
 }
 
 .row {
   display: grid;
   grid-template-columns: 1.7fr 1fr;
   gap: 16px;
+  align-items: start;
 }
 
 @media (max-width: 900px) {
@@ -86,7 +87,266 @@ textarea {
   backdrop-filter: blur(10px);
 }
 
+.searchSection {
+  width: 100%;
+  border-radius: 14px;
+  padding: 14px;
+  border: 1px solid transparent;
+  background: transparent;
+}
+
+.searchSection .searchBar {
+  margin-left: -14px;
+  margin-right: -14px;
+}
+
+.stickySearchBar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  margin-left: -16px;
+  margin-right: -16px;
+  padding: 10px 16px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(14px);
+}
+
+.stickySearchBar h2 {
+  display: none;
+}
+
+.stickySearchBar .searchBar input {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.searchOptions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.stickySearchBar .searchOptions {
+  justify-content: center;
+}
+
+.switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+
+.switch input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.switch .track {
+  width: 42px;
+  height: 24px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.switch .track::after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  transform: translateX(0);
+  transition: transform 120ms ease, background 120ms ease;
+}
+
+.switch input:checked + .track {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.switch input:checked + .track::after {
+  transform: translateX(18px);
+}
+
+.switch input:focus-visible + .track {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.22);
+}
+
+.switchLabel {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.switchLabel.active {
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 650;
+}
+
+.pager {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pagerLink {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.78);
+  padding: 8px 6px;
+  border-radius: 10px;
+}
+
+.pagerLink:hover {
+  color: rgba(255, 255, 255, 0.92);
+  text-decoration: underline;
+}
+
+.pagerLink:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+
+.pageList {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pageItem,
+.pageEllipsis {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.78);
+  padding: 8px 8px;
+  border-radius: 10px;
+  min-width: 34px;
+  text-align: center;
+}
+
+.pageItem:hover,
+.pageEllipsis:hover {
+  color: rgba(255, 255, 255, 0.92);
+  text-decoration: underline;
+}
+
+.pageItem.current {
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: underline;
+  font-weight: 700;
+  cursor: default;
+}
+
+.pageItem:disabled {
+  cursor: default;
+}
+
+.pageEllipsis {
+  letter-spacing: 2px;
+}
+
+.pageItem:focus-visible,
+.pageEllipsis:focus-visible,
+.pagerLink:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.22);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 200% 0%;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.12) 40%,
+    rgba(255, 255, 255, 0.06) 80%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+.skeletonCard {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.22);
+  border-radius: 14px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 104px 1fr;
+  gap: 12px;
+  min-height: 156px;
+  pointer-events: none;
+}
+
+.skeletonPoster {
+  width: 104px;
+  height: 156px;
+}
+
+.skeletonContent {
+  padding: 12px 12px 12px 0;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+
+.skeletonTitle {
+  height: 14px;
+  width: 70%;
+  border-radius: 8px;
+}
+
+.skeletonMeta {
+  height: 12px;
+  width: 38%;
+  border-radius: 8px;
+  opacity: 0.9;
+}
+
+.skeletonLine {
+  height: 10px;
+  width: 100%;
+  border-radius: 8px;
+  opacity: 0.85;
+}
+
+.skeletonLine.short {
+  width: 78%;
+}
+
 .panel h2 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.86);
+  font-weight: 650;
+  letter-spacing: 0.25px;
+}
+
+.searchSection h2 {
   margin: 0 0 12px;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.86);
@@ -104,14 +364,22 @@ textarea {
   flex: 1;
   padding: 10px 12px;
   border-radius: 12px;
-  border: 1px solid var(--border);
-  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
   color: var(--text);
   outline: none;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03) inset, 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
 .searchBar input::placeholder {
   color: rgba(255, 255, 255, 0.55);
+}
+
+.searchBar input:focus {
+  border-color: rgba(124, 92, 255, 0.35);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03) inset, 0 0 0 4px rgba(124, 92, 255, 0.18),
+    0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
 .btn {
@@ -127,28 +395,36 @@ textarea {
   background: rgba(124, 92, 255, 0.26);
 }
 
+.searchBtn {
+  border-color: rgba(0, 197, 255, 0.35);
+  background: rgba(0, 197, 255, 0.16);
+}
+
+.searchBtn:hover {
+  background: rgba(0, 197, 255, 0.24);
+}
+
+.searchBtn:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
 .btn.secondary {
   background: rgba(255, 255, 255, 0.06);
 }
 
 .btn.danger {
-  background: rgba(255, 92, 122, 0.18);
+  background: rgba(255, 59, 48, 0.18);
 }
 
 .btn.danger:hover {
-  background: rgba(255, 92, 122, 0.26);
+  background: rgba(255, 59, 48, 0.26);
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-@media (max-width: 900px) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
 }
 
 @media (max-width: 520px) {
@@ -163,19 +439,68 @@ textarea {
   border-radius: 14px;
   overflow: hidden;
   display: grid;
-  grid-template-columns: 84px 1fr;
+  grid-template-columns: 104px 1fr;
   gap: 12px;
   cursor: pointer;
-  min-height: 112px;
+  min-height: 156px;
+  position: relative;
 }
 
 .card:hover {
   border-color: rgba(255, 255, 255, 0.24);
 }
 
+.heartBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(10px);
+  color: rgba(255, 255, 255, 0.86);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 120ms ease, transform 120ms ease, background 120ms ease, border-color 120ms ease;
+}
+
+.card:hover .heartBtn,
+.card:focus-within .heartBtn {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.heartBtn:hover {
+  border-color: rgba(255, 255, 255, 0.24);
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.heartBtn.active {
+  color: rgba(255, 92, 122, 0.95);
+  border-color: rgba(255, 92, 122, 0.28);
+  background: rgba(255, 92, 122, 0.12);
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.heartBtn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.22);
+}
+
 .poster {
-  width: 84px;
-  height: 112px;
+  width: 104px;
+  height: 156px;
   background: rgba(255, 255, 255, 0.06);
   display: flex;
   align-items: center;
@@ -191,9 +516,13 @@ textarea {
 
 .cardTitle {
   margin: 0;
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
   line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .cardMeta {
@@ -218,11 +547,11 @@ textarea {
 }
 
 .error {
-  color: rgba(255, 255, 255, 0.92);
-  background: rgba(255, 92, 122, 0.14);
-  border: 1px solid rgba(255, 92, 122, 0.32);
-  padding: 10px 12px;
-  border-radius: 12px;
+  color: rgba(255, 92, 122, 0.95);
+  background: transparent;
+  border: none;
+  padding: 0;
+  border-radius: 0;
   font-size: 13px;
 }
 
@@ -285,7 +614,28 @@ textarea {
 
 .modalHeader h3 {
   margin: 0;
-  font-size: 14px;
+  font-size: 18px;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  border-top: none;
+  background: transparent;
+}
+
+.modalFooter .btn {
+  padding: 10px 12px;
+  flex: 1;
+}
+
+.favModalTitle {
+  font-size: 18px;
+  font-weight: 750;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .pillRow {
@@ -326,33 +676,139 @@ textarea {
   padding: 10px;
   display: grid;
   gap: 8px;
+  position: relative;
 }
 
 .favTop {
   display: grid;
-  grid-template-columns: 44px 1fr auto;
+  grid-template-columns: 104px 1fr;
   gap: 10px;
-  align-items: center;
+  align-items: start;
 }
 
 .favPoster {
-  width: 44px;
-  height: 66px;
-  border-radius: 10px;
+  width: 104px;
+  height: 156px;
+  border-radius: 14px;
   background: rgba(255, 255, 255, 0.06);
   overflow: hidden;
 }
 
 .favTitle {
   margin: 0;
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.favStack {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  padding-right: 0;
+}
+
+.favTopText {
+  display: grid;
+  gap: 6px;
 }
 
 .favMeta {
-  margin: 2px 0 0;
+  margin: 0;
   font-size: 12px;
   color: var(--muted);
+}
+
+.favActions {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+  align-items: start;
+  margin-top: 0;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 120ms ease, transform 120ms ease;
+  padding: 0;
+  border: none;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.favItem:hover .favActions,
+.favItem:focus-within .favActions {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .favActions {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .heartBtn {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}
+
+.favActions .btn {
+  padding: 6px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  backdrop-filter: none;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.45);
+  font-weight: 700;
+  letter-spacing: 0.1px;
+  text-shadow: none;
+}
+
+.favActions .btn.secondary {
+  background: rgba(255, 215, 0, 0.95);
+  border-color: rgba(255, 215, 0, 0.95);
+  color: rgba(0, 0, 0, 0.92);
+}
+
+.favActions .btn.secondary:hover {
+  background: rgba(255, 215, 0, 1);
+  border-color: rgba(255, 215, 0, 1);
+}
+
+.favActions .btn.danger {
+  background: rgba(255, 59, 48, 0.92);
+  border-color: rgba(255, 59, 48, 0.92);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.favActions .btn.danger:hover {
+  background: rgba(255, 59, 48, 1);
+  border-color: rgba(255, 59, 48, 1);
+}
+
+.favNoteRow {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .fieldRow {
@@ -384,4 +840,3 @@ textarea {
   resize: vertical;
   min-height: 80px;
 }
-
