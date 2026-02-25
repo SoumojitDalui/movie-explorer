@@ -84,6 +84,7 @@ function HomeInner() {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
+  const [jump, setJump] = useState<{ min: number; max: number; value: string } | null>(null);
 
   const sentinelRef = useRef<HTMLDivElement | null>(null);
   const inFlight = useRef<AbortController | null>(null);
@@ -203,14 +204,7 @@ function HomeInner() {
   function promptForPage(min: number, max: number) {
     const current = page || 1;
     const seed = String(Math.min(Math.max(current, min), max));
-    const raw = window.prompt(`Go to page (${min}–${max})`, seed);
-    if (raw === null) return;
-    const n = Number(raw.trim());
-    if (!Number.isInteger(n) || n < min || n > max) {
-      setLoadMoreError(`Enter a whole number between ${min} and ${max}.`);
-      return;
-    }
-    goToPage(n);
+    setJump({ min, max, value: seed });
   }
 
   function setSearchMode(next: SearchMode) {
@@ -417,6 +411,57 @@ function HomeInner() {
       </div>
 
       <MovieDetailsModal movie={selected} onClose={() => setSelected(null)} />
+
+      {jump ? (
+        <div className="modalOverlay" role="dialog" aria-modal="true" aria-label="Jump to page" onMouseDown={() => setJump(null)}>
+          <div className="modal" onMouseDown={(e) => e.stopPropagation()} style={{ width: "min(420px, 100%)" }}>
+            <div className="modalHeader">
+              <h3>
+                Go to page ({jump.min}–{jump.max})
+              </h3>
+            </div>
+            <div className="fieldRow" style={{ padding: 14, gap: 12 }}>
+              <label>
+                Page number
+                <input
+                  inputMode="numeric"
+                  value={jump.value}
+                  onChange={(e) => setJump((prev) => (prev ? { ...prev, value: e.target.value } : prev))}
+                  onKeyDown={(e) => {
+                    if (e.key !== "Enter") return;
+                    const n = Number(jump.value.trim());
+                    if (!Number.isInteger(n) || n < jump.min || n > jump.max) {
+                      setLoadMoreError(`Enter a whole number between ${jump.min} and ${jump.max}.`);
+                      return;
+                    }
+                    setJump(null);
+                    goToPage(n);
+                  }}
+                />
+              </label>
+              <div className="modalFooter">
+                <button className="btn secondary" onClick={() => setJump(null)}>
+                  Cancel
+                </button>
+                <button
+                  className="btn"
+                  onClick={() => {
+                    const n = Number(jump.value.trim());
+                    if (!Number.isInteger(n) || n < jump.min || n > jump.max) {
+                      setLoadMoreError(`Enter a whole number between ${jump.min} and ${jump.max}.`);
+                      return;
+                    }
+                    setJump(null);
+                    goToPage(n);
+                  }}
+                >
+                  Go
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
